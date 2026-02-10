@@ -1,4 +1,4 @@
-# Spaced Repetition Service
+# Spaced Repetition Platform
 
 A flashcard app that schedules reviews using spaced repetition algorithms (SM-2 and FSRS).
 Built with Spring Boot, React, and PostgreSQL.
@@ -10,8 +10,8 @@ The fastest way to run the app — no cloning, no build tools, just Docker.
 1. **Download the two required files**
 
    ```bash
-   curl -O https://raw.githubusercontent.com/mrtob/spaced-repetition-service/main/docker-compose.yml
-   curl -O https://raw.githubusercontent.com/mrtob/spaced-repetition-service/main/.env.example
+   curl -O https://raw.githubusercontent.com/mrtob/spaced-repetition-platform/main/docker-compose.yml
+   curl -O https://raw.githubusercontent.com/mrtob/spaced-repetition-platform/main/.env.example
    ```
 
 2. **Configure and start**
@@ -69,14 +69,15 @@ Use `docker-compose.dev.yml` to run only the database, then start backend and fr
 
 ## Choosing an Algorithm
 
-Set the `srs.algorithm` property in `application.yaml` or via environment variable:
+FSRS is the default. To switch to SM-2, set the `SRS_ALGORITHM` environment variable in `docker-compose.yml`:
 
 ```yaml
-srs:
-  algorithm: fsrs   # or sm2
+environment:
+  SRS_ALGORITHM: sm2   # fsrs (default) or sm2
 ```
 
-FSRS is the default. The active algorithm is selected at startup via `@ConditionalOnProperty` —
+You can also set it directly in `application.yaml` or pass it as a system property (`-Dsrs.algorithm=sm2`).
+The active algorithm is selected at startup via `@ConditionalOnProperty` —
 only one implementation is registered as a Spring bean.
 
 ## API

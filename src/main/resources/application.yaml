@@ -11,6 +11,6 @@ spring:
     password: ${POSTGRES_PASSWORD}
 
 srs:
-  algorithm: fsrs
+  algorithm: ${SRS_ALGORITHM:fsrs}
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}

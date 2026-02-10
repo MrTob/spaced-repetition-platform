@@ -1,0 +1,23 @@
+# Development — only runs the database.
+# Run backend and frontend locally with your IDE / CLI.
+# Usage: docker compose -f docker-compose.dev.yml up -d
+
+services:
+  database:
+    image: "postgres:17"
+    container_name: srs-postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pgdata:

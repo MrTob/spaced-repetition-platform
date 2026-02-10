@@ -1,53 +1,69 @@
 # Spaced Repetition Service
 
-A REST API built with Spring Boot that schedules flashcard reviews using spaced repetition algorithms.
-The service supports two algorithm strategies — **SM-2** and **FSRS** — selectable via configuration.
-
-## Tech Stack
-
-- Java 21
-- Spring Boot 4.0.2
-- Spring Data JPA (Hibernate)
-- PostgreSQL 17
-- Flyway (database migrations)
-- MapStruct (DTO mapping)
-- Maven
-
-## Prerequisites
-
-- Java 21+
-- Docker & Docker Compose
-- Maven 3.9+ (or use the included `mvnw` wrapper)
+A flashcard app that schedules reviews using spaced repetition algorithms (SM-2 and FSRS).
+Built with Spring Boot, React, and PostgreSQL.
 
 ## Quick Start
 
-1. **Clone and configure**
+The fastest way to run the app — no build tools needed, just Docker.
+
+1. **Configure environment**
 
    ```bash
    cp .env.example .env
    # Edit .env with your preferred database credentials
    ```
 
-2. **Start PostgreSQL**
+2. **Start the app**
 
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
-3. **Run the application** (dev profile is active by default)
+That's it. Open `http://localhost` in your browser.
+
+## Docker Compose Variants
+
+| File | Purpose | Command |
+|------|---------|---------|
+| `docker-compose.yml` | **Quickstart** — pulls pre-built images from GHCR | `docker compose up -d` |
+| `docker-compose.build.yml` | **Local build** — builds frontend & backend from source | `docker compose -f docker-compose.build.yml up -d --build` |
+| `docker-compose.dev.yml` | **Development** — database only, run apps locally | `docker compose -f docker-compose.dev.yml up -d` |
+
+## Development Setup
+
+Use `docker-compose.dev.yml` to run only the database, then start backend and frontend locally:
+
+1. **Start the database**
+
+   ```bash
+   docker compose -f docker-compose.dev.yml up -d
+   ```
+
+2. **Start the backend** (dev profile is active by default, seeds 7 demo cards)
 
    ```bash
    ./mvnw spring-boot:run
    ```
 
+   Or run `SpacedRepetitionServiceApplication` from your IDE.
    The API is available at `http://localhost:8080`.
-   In dev mode, 7 demo cards are seeded automatically.
 
-4. **Run with production profile**
+3. **Start the frontend**
 
    ```bash
-   ./mvnw spring-boot:run -Dspring-boot.run.profiles=prod
+   cd frontend
+   bun install
+   bun run dev
    ```
+
+   Open `http://localhost:5173`. The Vite dev server proxies `/api` to the backend.
+
+## Tech Stack
+
+**Backend:** Java 21, Spring Boot 4.0.2, Spring Data JPA, PostgreSQL 17, Flyway, MapStruct, Maven, GraalVM Native Image
+
+**Frontend:** React 19, TypeScript, Vite 8, Tailwind CSS 4, shadcn/ui, Framer Motion, SWR, Bun
 
 ## Choosing an Algorithm
 

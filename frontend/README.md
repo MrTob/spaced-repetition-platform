@@ -11,23 +11,25 @@ React frontend for the Spaced Repetition Service — a flashcard app that schedu
 - **SWR** (data fetching)
 - **Bun** (package manager & runtime)
 
-## Getting Started
+## Development
+
+Make sure the database and backend are running first (see the [root README](../README.md)).
 
 ```bash
-# Install dependencies
 bun install
-
-# Start dev server (proxies /api to localhost:8080)
 bun run dev
-
-# Build for production
-bun run build
-
-# Lint
-bun run lint
 ```
 
-The dev server proxies `/api/*` requests to `http://localhost:8080`, so make sure the backend is running locally.
+The dev server starts at `http://localhost:5173` and proxies `/api/*` to `http://localhost:8080`.
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `bun run dev` | Start Vite dev server with HMR |
+| `bun run build` | Build for production |
+| `bun run preview` | Preview production build locally |
+| `bun run lint` | Run ESLint |
 
 ## Project Structure
 
@@ -51,14 +53,14 @@ src/
 
 All requests go through `/api`, proxied to the backend in both dev (Vite proxy) and production (Nginx).
 
-| Method | Endpoint                        | Description                  |
-|--------|---------------------------------|------------------------------|
-| GET    | `/api/cards/due`                | Fetch cards due for review   |
-| GET    | `/api/cards?page=&size=&sort=`  | Fetch all cards (paginated)  |
-| POST   | `/api/cards`                    | Create a new card            |
-| PUT    | `/api/cards/{id}`               | Update a card                |
-| DELETE | `/api/cards/{id}`               | Delete a card                |
-| POST   | `/api/cards/{id}/review?quality=` | Review a card (quality 0-5) |
+| Method | Endpoint                          | Description                  |
+|--------|-----------------------------------|------------------------------|
+| GET    | `/api/cards/due`                  | Fetch cards due for review   |
+| GET    | `/api/cards?page=&size=&sort=`    | Fetch all cards (paginated)  |
+| POST   | `/api/cards`                      | Create a new card            |
+| PUT    | `/api/cards/{id}`                 | Update a card                |
+| DELETE | `/api/cards/{id}`                 | Delete a card                |
+| POST   | `/api/cards/{id}/review?quality=` | Review a card (quality 0-5)  |
 
 ## Docker
 
@@ -68,3 +70,5 @@ The Dockerfile uses a multi-stage build:
 2. **Runtime stage** (`nginx:alpine`) — serves the static bundle and proxies `/api` to the backend
 
 The `API_URL` environment variable (set in `docker-compose.yml`) controls where Nginx forwards API requests.
+
+A pre-built image is available: `ghcr.io/mrtob/srs-frontend:latest`

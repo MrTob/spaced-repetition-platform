@@ -5,18 +5,20 @@ Built with Spring Boot, React, and PostgreSQL.
 
 ## Quick Start
 
-The fastest way to run the app — no build tools needed, just Docker.
+The fastest way to run the app — no cloning, no build tools, just Docker.
 
-1. **Configure environment**
+1. **Download the two required files**
+
+   ```bash
+   curl -O https://raw.githubusercontent.com/mrtob/spaced-repetition-service/main/docker-compose.yml
+   curl -O https://raw.githubusercontent.com/mrtob/spaced-repetition-service/main/.env.example
+   ```
+
+2. **Configure and start**
 
    ```bash
    cp .env.example .env
    # Edit .env with your preferred database credentials
-   ```
-
-2. **Start the app**
-
-   ```bash
    docker compose up -d
    ```
 
